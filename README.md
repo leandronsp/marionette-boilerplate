@@ -1,7 +1,7 @@
 Marionette Boilerplate
 ======================
 
-Inspired from [es6-marionette](https://github.com/abiee/es6-marionette)
+Inspired by [es6-marionette](https://github.com/abiee/es6-marionette)
 
 What's inside
 ----------------
