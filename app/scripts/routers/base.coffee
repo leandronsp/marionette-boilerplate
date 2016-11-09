@@ -1,7 +1,7 @@
-class BaseRouter extends Marionette.AppRouter
+class Routes.Base extends Marionette.AppRouter
   execute: (callback, args) ->
     @controller.beforeAction()
     super(callback, args)
     @controller.afterAction()
 
-module.exports = BaseRouter
+module.exports = Routers.Base

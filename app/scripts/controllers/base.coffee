@@ -1,13 +1,13 @@
-HeaderView  = require '../views/headerView'
+Views.Header = require '../views/header'
 
-class BaseController
+class Controllers.Base
 
   beforeAction: ->
-    view = new HeaderView
+    view = new Views.Header
     App.getView().getRegion('headerRegion').show(view)
     App.getView().getRegion('contentRegion').empty()
 
   afterAction: ->
     # implement
 
-module.exports = BaseController
+module.exports = Controllers.Base
