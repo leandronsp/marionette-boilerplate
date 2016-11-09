@@ -118,6 +118,17 @@ gulp.task 'serve', ['build'], ->
 
   gulp.watch 'app/styles/**/*.sass', ['styles']
 
+gulp.task 'serve:dist', ->
+  browserSync
+    open: false,
+    notify: false,
+    port: 9000,
+    ui: { port: 9001 },
+    server: {
+      baseDir: ['dist'],
+      routes: { '/node_modules': 'node_modules' }
+    }
+
 gulp.task 'build', ['browserify', 'html', 'images', 'fonts', 'extras'], ->
   size = $.size({title: 'build', gzip: true })
   gulp.src 'dist/**/*'
