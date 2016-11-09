@@ -4,8 +4,8 @@ class Controllers.Base
 
   beforeAction: ->
     view = new Views.Header
-    App.getView().getRegion('headerRegion').show(view)
-    App.getView().getRegion('contentRegion').empty()
+    _App.getView().getRegion('headerRegion').show(view)
+    _App.getView().getRegion('contentRegion').empty()
 
   afterAction: ->
     # implement

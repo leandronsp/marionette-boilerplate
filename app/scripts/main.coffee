@@ -1,9 +1,9 @@
+window.Views = {}
 window.Layouts = {}
 window.Models  = {}
 window.Collections = {}
 window.Controllers = {}
 window.Routers = {}
-window.Views = {}
 
 window.$           = require 'jquery'
 window._           = require 'underscore'
@@ -21,8 +21,8 @@ class Application extends Marionette.Application
     new RouterManager().setup()
 
   onStart: ->
-    @showView(new Layouts.App())
+    @showView new Layouts.App
     Backbone.history.start() if Backbone.history
 
-window.App = new Application
-window.App.start()
+window._App = new Application
+window._App.start()

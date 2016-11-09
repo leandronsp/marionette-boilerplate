@@ -1,8 +1,9 @@
 gulp        = require 'gulp'
 browserify  = require 'browserify'
-watchify    = require 'watchify'
-coffeify    = require 'coffeeify'
+sassify     = require 'sassify'
 hbsfy       = require 'hbsfy'
+browserify  = require 'browserify'
+watchify    = require 'watchify'
 sass        = require 'gulp-sass'
 sassGlob    = require 'gulp-sass-glob'
 source      = require 'vinyl-source-stream'
@@ -16,7 +17,7 @@ KarmaServer = require('karma').Server
 
 gulp.task 'browserify', ->
   bundler = browserify
-    entries: 'app/scripts/main.coffee',
+    entries:  'app/scripts/main.coffee',
     debug: true,
     transform: ['coffeeify', 'hbsfy'],
     extensions: ['.coffee']
@@ -27,28 +28,10 @@ gulp.task 'browserify', ->
     bundler.bundle()
       .on 'error', $.util.log
       .pipe source('main.js')
-      .pipe buffer()
-      .pipe $.sourcemaps.init({ loadMaps: true })
-        .on 'error', $.util.log
-      .pipe $.sourcemaps.write('./')
-      .pipe gulp.dest('.tmp/scripts')
+      .pipe gulp.dest('dist/scripts')
 
   bundler.on 'update', rebundle
   rebundle()
-
-gulp.task 'browserify:dist', ->
-  bundler = browserify
-    entries: 'app/scripts/main.coffee',
-    debug: true,
-    transform: ['coffeeify', 'hbsfy'],
-    extensions: ['.coffee']
-
-  bundler.bundle()
-    .on 'error', $.util.log
-    .pipe source('main.js')
-    .pipe buffer()
-    .pipe $.uglify()
-    .pipe gulp.dest('dist/scripts')
 
 gulp.task 'images', ->
   gulp.src 'app/images/**/*'
@@ -87,11 +70,6 @@ gulp.task 'html', ['styles'], ->
     .pipe $.if('*.html', $.minifyHtml({conditionals: true, loose: true}))
     .pipe gulp.dest('dist')
 
-gulp.task 'clean', (callback) ->
-  del = require('del')
-  del ['dist'], ->
-    $.cache.clearAll(callback)
-
 gulp.task 'extras', ->
   gulp.src([
     'app/*.*',
@@ -120,13 +98,14 @@ gulp.task 'test', (callback) ->
 
   karma.start();
 
-gulp.task 'serve', ['browserify'], ->
+gulp.task 'serve', ['build'], ->
   browserSync
+    open: false,
     notify: false,
     port: 9000,
     ui: { port: 9001 },
     server: {
-      baseDir: ['dist', 'app'],
+      baseDir: ['dist'],
       routes: { '/node_modules': 'node_modules' }
     }
 
@@ -134,22 +113,12 @@ gulp.task 'serve', ['browserify'], ->
     'app/*html',
     'app/scripts/**/*.coffee',
     'app/images/**/*',
-    '.tmp/scripts/**/*.js'
+    'dist/**/*.js',
   ]).on 'change', reload
 
-gulp.task 'serve:dist', ->
-  browserSync({
-    notify: false,
-    port: 9000,
-    server: {
-      baseDir: ['dist'],
-      routes: {
-        '/node_modules': 'node_modules'
-      }
-    }
-  })
+  gulp.watch 'app/styles/**/*.sass', ['styles']
 
-gulp.task 'build', ['browserify:dist', 'html', 'images', 'fonts', 'extras'], ->
+gulp.task 'build', ['browserify', 'html', 'images', 'fonts', 'extras'], ->
   size = $.size({title: 'build', gzip: true })
   gulp.src 'dist/**/*'
     .pipe size
@@ -158,6 +127,11 @@ gulp.task 'build', ['browserify:dist', 'html', 'images', 'fonts', 'extras'], ->
       title: 'Build complete',
       message: =>
         return 'Total scripts size (gzip) ' + size.prettySize
+
+gulp.task 'clean', (callback) ->
+  del = require('del')
+  del ['dist'], ->
+    $.cache.clearAll(callback)
 
 gulp.task 'default', ['clean'], ->
   gulp.start 'build'

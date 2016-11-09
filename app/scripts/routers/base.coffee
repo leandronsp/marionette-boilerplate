@@ -1,4 +1,4 @@
-class Routes.Base extends Marionette.AppRouter
+class Routers.Base extends Marionette.AppRouter
   execute: (callback, args) ->
     @controller.beforeAction()
     super(callback, args)
