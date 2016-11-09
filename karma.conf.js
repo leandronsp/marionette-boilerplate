@@ -15,20 +15,20 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'spec/**/*Spec.js'
+      'spec/**/*Spec.coffee'
     ],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocesso
     preprocessors: {
-      'spec/**/*Spec.js': ['browserify']
+      'spec/**/*Spec.coffee': ['browserify']
     },
 
     // Cobfigure how to bundle the test files with Browserify
     browserify: {
       paths: ['app/scripts'],
-      transform: ['babelify', 'hbsfy'],
-      extensions: ['.js', '.hbs']
+      transform: ['coffeeify', 'hbsfy'],
+      extensions: ['.coffee', '.hbs']
     },
 
     // report on console and growl if available
