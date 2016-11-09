@@ -3,6 +3,8 @@ browserify  = require 'browserify'
 watchify    = require 'watchify'
 coffeify    = require 'coffeeify'
 hbsfy       = require 'hbsfy'
+sass        = require 'gulp-sass'
+sassGlob    = require 'gulp-sass-glob'
 source      = require 'vinyl-source-stream'
 buffer      = require 'vinyl-buffer'
 browserSync = require 'browser-sync'
@@ -38,7 +40,8 @@ gulp.task 'browserify:dist', ->
   bundler = browserify
     entries: 'app/scripts/main.coffee',
     debug: true,
-    transform: ['coffeeify', 'hbsfy']
+    transform: ['coffeeify', 'hbsfy'],
+    extensions: ['.coffee']
 
   bundler.bundle()
     .on 'error', $.util.log
@@ -65,13 +68,15 @@ gulp.task 'fonts', ->
     .pipe gulp.dest('dist/fonts')
 
 gulp.task 'styles', ->
-  gulp.src 'app/styles/main.css'
+  gulp.src 'app/styles/**/*.sass'
     .pipe $.sourcemaps.init()
+    .pipe sassGlob()
+    .pipe sass()
     .pipe $.postcss([
       require('autoprefixer')({browsers: ['last 1 version']})
     ])
     .pipe $.sourcemaps.write()
-    .pipe gulp.dest('.tmp/styles')
+    .pipe gulp.dest('dist/styles')
     .pipe reload({ stream: true })
 
 gulp.task 'html', ['styles'], ->
@@ -84,7 +89,7 @@ gulp.task 'html', ['styles'], ->
 
 gulp.task 'clean', (callback) ->
   del = require('del')
-  del ['.tmp', 'dist'], ->
+  del ['dist'], ->
     $.cache.clearAll(callback)
 
 gulp.task 'extras', ->
@@ -121,7 +126,7 @@ gulp.task 'serve', ['browserify'], ->
     port: 9000,
     ui: { port: 9001 },
     server: {
-      baseDir: ['.tmp', 'app'],
+      baseDir: ['dist', 'app'],
       routes: { '/node_modules': 'node_modules' }
     }
 

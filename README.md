@@ -8,6 +8,7 @@ What's inside
 Batteries included:
  - Gulp
  - Bootstrap
+ - SASS
  - jQuery
  - Underscore
  - Backbone
