@@ -1,8 +1,8 @@
-Routers.App = require './app'
-
 class RouterManager
+  constructor: ->
+    @routers = []
 
   setup: ->
-    new Routers.App
+    @routers.push new Routers.App
 
 module.exports = RouterManager

@@ -1,5 +1,3 @@
-Views.Header = require '../views/header'
-
 class Controllers.Base
 
   beforeAction: ->

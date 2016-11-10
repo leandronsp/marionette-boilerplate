@@ -80,14 +80,14 @@ gulp.task 'extras', ->
 
 gulp.task 'tdd', (callback) ->
   karma = new KarmaServer({
-    configFile: __dirname + '/karma.conf.js'
+    configFile: __dirname + '/karma.conf.coffee'
   }, callback)
 
   karma.start()
 
 gulp.task 'test', (callback) ->
   karma = new KarmaServer({
-    configFile: __dirname + '/karma.conf.js',
+    configFile: __dirname + '/karma.conf.coffee',
     singleRun: true,
     browsers: ['PhantomJS'],
     reporters: ['dots', 'junit'],
