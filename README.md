@@ -3,6 +3,8 @@ Marionette Boilerplate (Coffeescript)
 
 Inspired by [es6-marionette](https://github.com/abiee/es6-marionette)
 
+[![Code Climate](https://codeclimate.com/github/leandronsp/marionette-boilerplate/badges/gpa.svg)](https://codeclimate.com/github/leandronsp/marionette-boilerplate)
+
 What's inside
 ----------------
 Batteries included:
