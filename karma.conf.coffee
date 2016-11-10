@@ -7,7 +7,7 @@ module.exports = (config) ->
     autoWatch: true,
     basePath: '',
 
-    frameworks: ['browserify', 'jasmine'],
+    frameworks: ['browserify', 'jasmine-jquery', 'jasmine'],
 
     files: [
       'spec/specHelper.coffee',
@@ -36,6 +36,7 @@ module.exports = (config) ->
     plugins: [
       'karma-browserify',
       'karma-jasmine',
+      'karma-jasmine-jquery',
       'karma-spec-reporter',
       'karma-junit-reporter',
       'karma-growl',
