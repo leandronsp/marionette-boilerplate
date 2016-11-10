@@ -1,10 +1,12 @@
 Marionette Boilerplate (Coffeescript)
 ======================
 
-Inspired by [es6-marionette](https://github.com/abiee/es6-marionette)
-
 [![Build Status](https://travis-ci.org/leandronsp/marionette-boilerplate.svg?branch=master)](https://travis-ci.org/leandronsp/marionette-boilerplate)
 [![Code Climate](https://codeclimate.com/github/leandronsp/marionette-boilerplate/badges/gpa.svg)](https://codeclimate.com/github/leandronsp/marionette-boilerplate)
+
+Inspired by [es6-marionette](https://github.com/abiee/es6-marionette)
+
+Looking for boilerplate projects to start working with Backbone.Marionette using Coffeescript I didn't found a project that fit my requirements, so I take the best part of other projects and put all together here. This project can be used to bootstrap new projects with Coffeescript support.
 
 What's inside
 ----------------
@@ -43,3 +45,11 @@ The other option to run tests is for Continuous Integration purposes, it will ru
     $ gulp test
 
 You can get the results at `.tmp/test-results.xml`.
+
+Contribution
+---------------
+If you have ideas or find an error feel free to submit a PR.
+
+Licence
+-------
+Licensed under the MIT license.
