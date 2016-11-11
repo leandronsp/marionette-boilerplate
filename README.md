@@ -26,7 +26,8 @@ Batteries included:
  
  Setup
  -----
- 	$ npm install
+ 
+	$ npm install	
 	$ webdriver-manager update (need for e2e tests)
 
 Build
