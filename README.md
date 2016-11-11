@@ -1,4 +1,4 @@
-Marionette Boilerplate (Coffeescript)
+Marionette Boilerplate 
 ======================
 
 [![Build Status](https://travis-ci.org/leandronsp/marionette-boilerplate.svg?branch=master)](https://travis-ci.org/leandronsp/marionette-boilerplate)
@@ -6,7 +6,7 @@ Marionette Boilerplate (Coffeescript)
 
 Inspired by [es6-marionette](https://github.com/abiee/es6-marionette)
 
-Looking for boilerplate projects to start working with Backbone.Marionette using Coffeescript I didn't found a project that fit my requirements, so I take the best part of other projects and put all together here. This project can be used to bootstrap new projects with Coffeescript support.
+Looking for boilerplate projects to start working with Backbone.Marionette I didn't found a project that fit my requirements, so I take the best part of other projects and put all together here. This project can be used to bootstrap new Marionette Apps and provides the essential structure  for unit/e2e testing.
 
 What's inside
 ----------------
