@@ -21,13 +21,12 @@ Batteries included:
  - Handlebars
  - BrowserSync
  - Karma
- - Protractor (Selenium)
+ - Protractor
  - Jasmine
  
- Setup
- -----
- 
-	$ npm install	
+Setup
+--------
+	$ npm install
 	$ webdriver-manager update (need for e2e tests)
 
 Build
