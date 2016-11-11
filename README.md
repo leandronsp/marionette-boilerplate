@@ -23,6 +23,11 @@ Batteries included:
  - Karma
  - Protractor (Selenium)
  - Jasmine
+ 
+ Setup
+ -----
+ 	$ npm install
+	$ webdriver-manager update (need for e2e tests)
 
 Build
 ------
@@ -59,6 +64,7 @@ Protractor will run a selenium driver and execute the scenarios under `e2e/scena
 
 Contribution
 ---------------
+Tested on Node 6.x+.
 If you have ideas or find an error feel free to submit a PR.
 
 Licence
