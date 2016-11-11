@@ -21,6 +21,7 @@ Batteries included:
  - Handlebars
  - BrowserSync
  - Karma
+ - Protractor (Selenium)
  - Jasmine
 
 Build
@@ -32,8 +33,9 @@ If you want to build the project run.
 It will compile the project and put the result under `dist` directory. You can run the compiled project also.
 
     $ gulp serve:dist
+   
 
-Testing
+Unit Testing
 ---------
 Two options exists to run tests, the first one is for development process and aims to practice Test Driven Development.
 
@@ -45,6 +47,15 @@ The other option to run tests is for Continuous Integration purposes, it will ru
     $ gulp test
 
 You can get the results at `.tmp/test-results.xml`.
+
+
+E2E Testing
+------------
+By calling :
+
+	$ gulp e2e
+
+Protractor will run a selenium driver and execute the scenarios under `e2e/scenarios/**/*.coffee`. 	
 
 Contribution
 ---------------

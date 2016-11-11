@@ -3,6 +3,6 @@ class RouterManager
     @routers = []
 
   setup: ->
-    @routers.push new Routers.App
+    @routers.push new Routers.Users
 
 module.exports = RouterManager

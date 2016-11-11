@@ -7,4 +7,4 @@ describe RouterManager, ->
       @manager.setup()
 
       expect(@manager.routers.push.calls.count()).toEqual(1)
-      expect(@manager.routers.push).toHaveBeenCalledWith(jasmine.any(Routers.App))
+      expect(@manager.routers.push).toHaveBeenCalledWith(jasmine.any(Routers.Users))

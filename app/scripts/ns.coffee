@@ -4,3 +4,5 @@ window.Views       = {}
 window.Routers     = {}
 window.Layouts     = {}
 window.Controllers = {}
+
+window.Views.Users = {}

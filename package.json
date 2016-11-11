@@ -4,6 +4,7 @@
   "description": "",
   "devDependencies": {
     "autoprefixer": "^6.5.2",
+    "backbone-relational": "^0.10.0",
     "browser-sync": "^2.17.5",
     "browserify": "^13.1.1",
     "coffee-script": "^1.11.1",
@@ -25,6 +26,7 @@
     "gulp-minify-html": "^1.0.6",
     "gulp-notify": "^2.2.0",
     "gulp-postcss": "^6.2.0",
+    "gulp-protractor": "^3.0.0",
     "gulp-sass": "^2.3.2",
     "gulp-sass-glob": "^1.0.6",
     "gulp-shell": "^0.5.2",
@@ -49,6 +51,7 @@
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^1.8.0",
     "lodash": "^4.16.6",
+    "protractor": "^4.0.11",
     "sassify": "^2.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
