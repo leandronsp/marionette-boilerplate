@@ -16,9 +16,14 @@ $ = require('gulp-load-plugins')()
 KarmaServer = require('karma').Server
 protractor  = require('gulp-protractor').protractor
 
+Params = {
+  browserifyEntries: 'app/scripts/main.coffee'
+  targetFolder: 'dist'
+}
+
 gulp.task 'browserify', ->
   bundler = browserify
-    entries:  'app/scripts/main.coffee',
+    entries:  Params.browserifyEntries,
     debug: true,
     transform: ['coffeeify', 'hbsfy'],
     extensions: ['.coffee']
@@ -29,25 +34,7 @@ gulp.task 'browserify', ->
     bundler.bundle()
       .on 'error', $.util.log
       .pipe source('main.js')
-      .pipe gulp.dest('dist/scripts')
-
-  bundler.on 'update', rebundle
-  rebundle()
-
-gulp.task 'browserify:mock', ->
-  bundler = browserify
-    entries:  ['e2e/mockServer.coffee'],
-    debug: true,
-    transform: ['coffeeify', 'hbsfy'],
-    extensions: ['.coffee']
-
-  bundler = watchify(bundler)
-
-  rebundle = =>
-    bundler.bundle()
-      .on 'error', $.util.log
-      .pipe source('main.js')
-      .pipe gulp.dest('.mock/scripts')
+      .pipe gulp.dest("#{Params.targetFolder}/scripts")
 
   bundler.on 'update', rebundle
   rebundle()
@@ -58,16 +45,7 @@ gulp.task 'images', ->
       progressive: true,
       interlaced: true
     }))
-    .pipe gulp.dest('dist/images')
-    .pipe $.size({title: 'images'})
-
-gulp.task 'images:mock', ->
-  gulp.src 'app/images/**/*'
-    .pipe $.cache($.imagemin({
-      progressive: true,
-      interlaced: true
-    }))
-    .pipe gulp.dest('.mock/images')
+    .pipe gulp.dest("#{Params.targetFolder}/images")
     .pipe $.size({title: 'images'})
 
 gulp.task 'fonts', ->
@@ -76,15 +54,7 @@ gulp.task 'fonts', ->
     'node_modules/bootstrap/dist/fonts/**/*'
   ])
     .pipe $.flatten()
-    .pipe gulp.dest('dist/fonts')
-
-gulp.task 'fonts:mock', ->
-  gulp.src([
-    'app/{,styles/}fonts/**/*',
-    'node_modules/bootstrap/dist/fonts/**/*'
-  ])
-    .pipe $.flatten()
-    .pipe gulp.dest('.mock/fonts')
+    .pipe gulp.dest("#{Params.targetFolder}/fonts")
 
 gulp.task 'styles', ->
   gulp.src 'app/styles/**/*.sass'
@@ -95,19 +65,7 @@ gulp.task 'styles', ->
       require('autoprefixer')({browsers: ['last 1 version']})
     ])
     .pipe $.sourcemaps.write()
-    .pipe gulp.dest('dist/styles')
-    .pipe reload({ stream: true })
-
-gulp.task 'styles:mock', ->
-  gulp.src 'app/styles/**/*.sass'
-    .pipe $.sourcemaps.init()
-    .pipe sassGlob()
-    .pipe sass()
-    .pipe $.postcss([
-      require('autoprefixer')({browsers: ['last 1 version']})
-    ])
-    .pipe $.sourcemaps.write()
-    .pipe gulp.dest('.mock/styles')
+    .pipe gulp.dest("#{Params.targetFolder}/styles")
     .pipe reload({ stream: true })
 
 gulp.task 'html', ['styles'], ->
@@ -116,15 +74,7 @@ gulp.task 'html', ['styles'], ->
     .pipe $.useref()
     .pipe $.if('*.css', $.csso())
     .pipe $.if('*.html', $.minifyHtml({conditionals: true, loose: true}))
-    .pipe gulp.dest('dist')
-
-gulp.task 'html:mock', ['styles:mock'], ->
-  gulp.src 'app/*.html'
-    .pipe $.htmlReplace()
-    .pipe $.useref()
-    .pipe $.if('*.css', $.csso())
-    .pipe $.if('*.html', $.minifyHtml({conditionals: true, loose: true}))
-    .pipe gulp.dest('.mock')
+    .pipe gulp.dest(Params.targetFolder)
 
 gulp.task 'extras', ->
   gulp.src([
@@ -132,15 +82,7 @@ gulp.task 'extras', ->
     '!app/*.html'
   ], {
     dot: true
-  }).pipe gulp.dest('dist')
-
-gulp.task 'extras:mock', ->
-  gulp.src([
-    'app/*.*',
-    '!app/*.html'
-  ], {
-    dot: true
-  }).pipe gulp.dest('.mock')
+  }).pipe gulp.dest(Params.targetFolder)
 
 gulp.task 'tdd', (callback) ->
   karma = new KarmaServer({
@@ -168,6 +110,22 @@ gulp.task 'e2e', ['serve:mock'], ->
     .once 'end', ->
       process.exit()
 
+gulp.task 'e2e:watch', ['serve:mock'], ->
+  _e2e = =>
+    gulp.src(['e2e/scenarios/**/*.coffee'])
+      .pipe protractor({ configFile: 'protractor.conf.coffee' })
+      .on 'error', $.util.log
+
+  gulp.watch([
+    'app/*html',
+    'app/scripts/**/*.coffee',
+    'app/images/**/*',
+    'e2e/**/*.coffee',
+    'dist/**/*.js',
+  ]).on 'change', _e2e
+
+  _e2e()
+
 gulp.task 'serve', ['build'], ->
   browserSync
     open: false,
@@ -175,7 +133,7 @@ gulp.task 'serve', ['build'], ->
     port: 9000,
     ui: { port: 9001 },
     server: {
-      baseDir: ['dist'],
+      baseDir: [Params.targetFolder],
       routes: { '/node_modules': 'node_modules' }
     }
 
@@ -183,7 +141,7 @@ gulp.task 'serve', ['build'], ->
     'app/*html',
     'app/scripts/**/*.coffee',
     'app/images/**/*',
-    'dist/**/*.js',
+    "#{Params.targetFolder}/**/*.js",
   ]).on 'change', reload
 
   gulp.watch 'app/styles/**/*.sass', ['styles']
@@ -199,40 +157,15 @@ gulp.task 'serve:dist', ->
       routes: { '/node_modules': 'node_modules' }
     }
 
-gulp.task 'serve:mock', ['build:mock'], ->
-  browserSync
-    open: false,
-    notify: false,
-    port: 9000,
-    ui: { port: 9001 },
-    server: {
-      baseDir: ['.mock'],
-      routes: { '/node_modules': 'node_modules' }
-    }
+gulp.task 'serve:mock', ['setup:mock', 'serve']
 
-  gulp.watch([
-    'app/*html',
-    'app/scripts/**/*.coffee',
-    'app/images/**/*',
-    '.mock/**/*.js',
-  ]).on 'change', reload
-
-  gulp.watch 'app/styles/**/*.sass', ['styles:mock']
-
+gulp.task 'setup:mock', ->
+  Params.browserifyEntries = 'e2e/mocks/main.coffee'
+  Params.targetFolder = '.mock'
 
 gulp.task 'build', ['browserify', 'html', 'images', 'fonts', 'extras'], ->
   size = $.size({title: 'build', gzip: true })
-  gulp.src 'dist/**/*'
-    .pipe size
-    .pipe $.notify
-      onLast: true,
-      title: 'Build complete',
-      message: =>
-        return 'Total scripts size (gzip) ' + size.prettySize
-
-gulp.task 'build:mock', ['browserify:mock', 'html:mock', 'images:mock', 'fonts:mock', 'extras:mock'], ->
-  size = $.size({title: 'build', gzip: true })
-  gulp.src '.mock/**/*'
+  gulp.src "#{Params.targetFolder}/**/*"
     .pipe size
     .pipe $.notify
       onLast: true,
@@ -242,7 +175,7 @@ gulp.task 'build:mock', ['browserify:mock', 'html:mock', 'images:mock', 'fonts:m
 
 gulp.task 'clean', (callback) ->
   del = require('del')
-  del ['dist'], ->
+  del ['dist', '.mock'], ->
     $.cache.clearAll(callback)
 
 gulp.task 'default', ['clean'], ->
