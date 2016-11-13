@@ -8,6 +8,8 @@ Inspired by [es6-marionette](https://github.com/abiee/es6-marionette)
 
 Looking for boilerplate projects to start working with Backbone.Marionette I didn't found a project that fit my requirements, so I take the best part of other projects and put all together here. This project can be used to bootstrap new Marionette Apps and provides the essential structure  for unit/e2e testing.
 
+More details about the challenges I had while creating this project, I wrote an article on [Medium](https://goo.gl/xye8kk)
+
 What's inside
 ----------------
 Batteries included:
