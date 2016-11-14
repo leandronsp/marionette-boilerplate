@@ -1,4 +1,5 @@
 gulp        = require 'gulp'
+open        = require 'gulp-open'
 browserify  = require 'browserify'
 sassify     = require 'sassify'
 hbsfy       = require 'hbsfy'
@@ -103,6 +104,35 @@ gulp.task 'test', (callback) ->
   }, callback)
 
   karma.start()
+
+gulp.task 'unit:coverage', (callback) ->
+  karma = new KarmaServer({
+    configFile: __dirname + '/karma.conf.coffee',
+    singleRun: true,
+    action: 'run'
+    files: [
+      '**/scripts/**/*.coffee'
+      'spec/specHelper.coffee'
+      'spec/**/*Spec.coffee'
+    ],
+    exclude: ['app/scripts/app.coffee'],
+    preprocessors: {
+      'app/scripts/**/*.coffee': ['browserify', 'coverage']
+      'spec/**/*.coffee': ['browserify']
+    },
+    reporters: ['progress', 'coverage']
+    coverageReporter: {
+      type: 'lcov'
+      dir: 'coverage/'
+      subdir: '.'
+    }
+  }, callback)
+
+  karma.start()
+
+gulp.task 'coverage', ['unit:coverage'], ->
+  gulp.src './coverage/lcov-report/index.html'
+    .pipe open()
 
 gulp.task 'e2e', ['serve:mock'], ->
   gulp.src(['e2e/scenarios/**/*.coffee'])

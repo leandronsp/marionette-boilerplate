@@ -2,6 +2,7 @@ Marionette Boilerplate
 ======================
 
 [![Build Status](https://travis-ci.org/leandronsp/marionette-boilerplate.svg?branch=master)](https://travis-ci.org/leandronsp/marionette-boilerplate)
+[![Test Coverage](https://codeclimate.com/github/leandronsp/marionette-boilerplate/badges/coverage.svg)](https://codeclimate.com/github/leandronsp/marionette-boilerplate/coverage)
 [![Code Climate](https://codeclimate.com/github/leandronsp/marionette-boilerplate/badges/gpa.svg)](https://codeclimate.com/github/leandronsp/marionette-boilerplate)
 
 Inspired by [es6-marionette](https://github.com/abiee/es6-marionette)
@@ -51,9 +52,9 @@ Two options exists to run tests, the first one is for development process and ai
 It will open a Google Chrome instance and run all tests on it, when a file is updated tests will be run again. You can see the rests as a notification or in the console.
 The other option to run tests is for Continuous Integration purposes, it will run all the tests against PanthomJS and output a jUnit format file for analysis.
 
-    $ gulp test
+    $ gulp coverage
 
-You can get the results at `.tmp/test-results.xml`.
+And the Browser will open the coverage in HTML format. 
 
 
 E2E Testing
