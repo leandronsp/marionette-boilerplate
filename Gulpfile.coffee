@@ -134,13 +134,23 @@ gulp.task 'coverage', ['unit:coverage'], ->
   gulp.src './coverage/lcov-report/index.html'
     .pipe open()
 
-gulp.task 'e2e', ['serve:mock'], ->
-  gulp.src(['e2e/scenarios/**/*.coffee'])
-    .pipe protractor({ configFile: 'protractor.conf.coffee' })
-    .once 'end', ->
-      process.exit()
+gulp.task 'e2e', ['serve'], ->
+  _e2e = =>
+    gulp.src(['e2e/scenarios/**/*.coffee'])
+      .pipe protractor({ configFile: 'protractor.conf.coffee' })
+      .on 'error', $.util.log
 
-gulp.task 'e2e:watch', ['serve:mock'], ->
+  gulp.watch([
+    'app/*html',
+    'app/scripts/**/*.coffee',
+    'app/images/**/*',
+    'e2e/**/*.coffee',
+    'dist/**/*.js',
+  ]).on 'change', _e2e
+
+  _e2e()
+
+gulp.task 'e2e:mock', ['serve:mock'], ->
   _e2e = =>
     gulp.src(['e2e/scenarios/**/*.coffee'])
       .pipe protractor({ configFile: 'protractor.conf.coffee' })
