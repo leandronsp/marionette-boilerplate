@@ -107,25 +107,7 @@ gulp.task 'test', (callback) ->
 
 gulp.task 'unit:coverage', (callback) ->
   karma = new KarmaServer({
-    configFile: __dirname + '/karma.conf.coffee',
-    singleRun: true,
-    action: 'run'
-    files: [
-      '**/scripts/**/*.coffee'
-      'spec/specHelper.coffee'
-      'spec/**/*Spec.coffee'
-    ],
-    exclude: ['app/scripts/app.coffee'],
-    preprocessors: {
-      'app/scripts/**/*.coffee': ['browserify', 'coverage']
-      'spec/**/*.coffee': ['browserify']
-    },
-    reporters: ['progress', 'coverage']
-    coverageReporter: {
-      type: 'lcov'
-      dir: 'coverage/'
-      subdir: '.'
-    }
+    configFile: __dirname + '/karma.conf-coverage.coffee'
   }, callback)
 
   karma.start()
