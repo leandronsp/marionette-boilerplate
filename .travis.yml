@@ -3,4 +3,4 @@ node_js:
   - "6.1"
 before_script:
   - npm install -g gulp
-script: gulp test:unit
+script: gulp test:ci

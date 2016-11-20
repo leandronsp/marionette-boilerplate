@@ -21,4 +21,4 @@ describe Views.Users.List, ->
     view = new Views.Users.List collection: collection
     view.render()
 
-    expect($(view.$el.find('.no-results')).text().trim()).toEqual('No users')
+    expect($(view.$el.find('.no-results')).text().trim()).toEqual('No userss')

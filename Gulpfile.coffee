@@ -185,6 +185,8 @@ gulp.task 'serve:dist', ->
       routes: { '/node_modules': 'node_modules' }
     }
 
+gulp.task 'test:ci', ['test:unit', 'test:e2e']
+
 gulp.task 'build', ['browserify', 'html', 'images', 'fonts', 'extras'], ->
   size = $.size({title: 'build', gzip: true })
   gulp.src "#{Params.targetFolder}/**/*"
