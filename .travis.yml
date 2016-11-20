@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - "6.1"
 before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - webdriver-manager update --standalone --chrome
   - npm install -g gulp
-  - webdriver-manager update
 script: gulp test:ci

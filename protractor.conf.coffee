@@ -5,7 +5,7 @@ exports.config = {
   baseUrl: 'http://localhost:9000'
   capabilities: {
     maxInstances: 1
-    browserName: 'phantomjs'
+    browserName: 'chrome'
   }
   #multiCapabilities: [{
   #  browserName: 'firefox'
