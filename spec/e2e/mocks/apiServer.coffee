@@ -2,7 +2,7 @@ class ApiMock
   create: ->
     jsonServer  = require 'json-server'
     @server      = jsonServer.create()
-    @router      = jsonServer.router('spec/integration/mocks/api.json')
+    @router      = jsonServer.router('spec/e2e/mocks/api.json')
 
     middlewares = jsonServer.defaults()
     @server.use(middlewares)

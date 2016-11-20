@@ -118,15 +118,15 @@ gulp.task 'coverage', ['test:unit:coverage'], ->
   gulp.src './coverage/lcov-report/index.html'
     .pipe open()
 
-gulp.task 'test:integration', ['serve'], ->
-  gulp.src(['spec/integration/**/*.coffee'])
+gulp.task 'test:e2e', ['serve'], ->
+  gulp.src(['spec/e2e/**/*.coffee'])
     .pipe protractor({ configFile: 'protractor.conf.coffee' })
     .on 'error', $.util.log
     .once 'end', -> process.exit()
 
-gulp.task 'test:integration:watch', ['serve'], ->
+gulp.task 'test:e2e:watch', ['serve'], ->
   bundle = =>
-    gulp.src(['spec/integration/**/*.coffee'])
+    gulp.src(['spec/e2e/**/*.coffee'])
       .pipe protractor({ configFile: 'protractor.conf.coffee' })
       .on 'error', $.util.log
 
@@ -134,8 +134,8 @@ gulp.task 'test:integration:watch', ['serve'], ->
     'app/*html',
     'app/scripts/**/*.coffee',
     'app/images/**/*',
-    'spec/integration/**/*.coffee',
-    'spec/integration/mocks/api.json',
+    'spec/e2e/**/*.coffee',
+    'spec/e2e/mocks/api.json',
     'dist/**/*.js',
   ]).on 'change', bundle
 

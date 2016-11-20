@@ -31,7 +31,7 @@ Batteries included:
 Setup
 --------
 	$ npm install
-	$ webdriver-manager update (need for e2e/integration tests)
+	$ webdriver-manager update (need for e2e tests)
 
 Build
 ------
@@ -62,13 +62,13 @@ The other option to run tests is for Continuous Integration purposes, it will ru
 And the Browser will open the coverage in HTML format. 
 
 
-Integration Testing
+End to End Testing
 ------------
 By calling :
 
-	$ gulp test:integration
+	$ gulp test:e2e
 
-Protractor will run a selenium driver and execute the scenarios under `spec/integration/**/*.coffee`. 
+Protractor will run a selenium driver and execute the scenarios under `spec/e2e/**/*.coffee`. 
 
 Contribution
 ---------------
