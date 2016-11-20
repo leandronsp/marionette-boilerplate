@@ -3,4 +3,5 @@ node_js:
   - "6.1"
 before_script:
   - npm install -g gulp
+  - webdriver-manager update
 script: gulp test:ci
