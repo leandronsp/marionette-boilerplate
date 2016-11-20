@@ -85,14 +85,14 @@ gulp.task 'extras', ->
     dot: true
   }).pipe gulp.dest(Params.targetFolder)
 
-gulp.task 'tdd', (callback) ->
+gulp.task 'test:watch:unit', (callback) ->
   karma = new KarmaServer({
     configFile: __dirname + '/karma.conf.coffee'
   }, callback)
 
   karma.start()
 
-gulp.task 'test', (callback) ->
+gulp.task 'test:unit', (callback) ->
   karma = new KarmaServer({
     configFile: __dirname + '/karma.conf.coffee',
     singleRun: true,
@@ -105,7 +105,7 @@ gulp.task 'test', (callback) ->
 
   karma.start()
 
-gulp.task 'unit:coverage', (callback) ->
+gulp.task 'test:unit:coverage', (callback) ->
   karma = new KarmaServer({
     configFile: __dirname + '/karma.conf-coverage.coffee'
   }, callback)
@@ -116,23 +116,7 @@ gulp.task 'coverage', ['unit:coverage'], ->
   gulp.src './coverage/lcov-report/index.html'
     .pipe open()
 
-gulp.task 'e2e', ['serve'], ->
-  _e2e = =>
-    gulp.src(['e2e/scenarios/**/*.coffee'])
-      .pipe protractor({ configFile: 'protractor.conf.coffee' })
-      .on 'error', $.util.log
-
-  gulp.watch([
-    'app/*html',
-    'app/scripts/**/*.coffee',
-    'app/images/**/*',
-    'e2e/**/*.coffee',
-    'dist/**/*.js',
-  ]).on 'change', _e2e
-
-  _e2e()
-
-gulp.task 'e2e:mock', ['serve:mock'], ->
+gulp.task 'test:watch:e2e', ['serve'], ->
   _e2e = =>
     gulp.src(['e2e/scenarios/**/*.coffee'])
       .pipe protractor({ configFile: 'protractor.conf.coffee' })
