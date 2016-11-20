@@ -10,13 +10,13 @@ module.exports = (config) ->
     frameworks: ['browserify', 'jasmine-jquery', 'jasmine'],
 
     files: [
-      'spec/specHelper.coffee',
-      'spec/**/*Spec.coffee'
+      'spec/unit/specHelper.coffee',
+      'spec/unit/**/*Spec.coffee'
     ],
 
     preprocessors: {
-      'spec/specHelper.coffee': ['browserify'],
-      'spec/**/*Spec.coffee': ['browserify']
+      'spec/unit/specHelper.coffee': ['browserify'],
+      'spec/unit/**/*Spec.coffee': ['browserify']
     },
 
     browserify: {

@@ -10,15 +10,15 @@ module.exports = (config) ->
 
     files: [
       '**/scripts/**/*.coffee'
-      'spec/specHelper.coffee'
-      'spec/**/*Spec.coffee'
+      'spec/unit/specHelper.coffee'
+      'spec/unit/**/*Spec.coffee'
     ],
 
     exclude: ['app/scripts/app.coffee'],
 
     preprocessors: {
       'app/scripts/**/*.coffee': ['browserify', 'coverage']
-      'spec/**/*.coffee': ['browserify']
+      'spec/unit/**/*.coffee': ['browserify']
     },
 
     reporters: ['progress', 'coverage']

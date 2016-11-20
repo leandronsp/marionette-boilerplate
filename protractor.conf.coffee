@@ -1,11 +1,12 @@
 exports.config = {
   framework: 'jasmine',
   seleniumServerJar: './node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
-  specs: ['e2e/scenarios/**/*.coffee']
+  specs: ['spec/integration/**/*.coffee']
   baseUrl: 'http://localhost:9000'
-  #capabilities: {
-  #  browserName: 'firefox'
-  #}
+  capabilities: {
+    maxInstances: 1
+    browserName: 'chrome'
+  }
   #multiCapabilities: [{
   #  browserName: 'firefox'
   #}, {

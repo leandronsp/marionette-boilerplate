@@ -15,5 +15,6 @@ window.Routers.Users = require './routers/users'
 window.Controllers.Base  = require './controllers/base'
 window.Controllers.Users = require './controllers/users'
 
+window.Views.Empty  = require './views/empty'
 window.Views.Header = require './views/header'
 window.Views.Users  = require './views/users'

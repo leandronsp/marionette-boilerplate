@@ -17,6 +17,8 @@ $ = require('gulp-load-plugins')()
 KarmaServer = require('karma').Server
 protractor  = require('gulp-protractor').protractor
 
+jsonServer = require 'gulp-json-srv'
+
 Params = {
   browserifyEntries: 'app/scripts/main.coffee'
   targetFolder: 'dist'
@@ -85,13 +87,6 @@ gulp.task 'extras', ->
     dot: true
   }).pipe gulp.dest(Params.targetFolder)
 
-gulp.task 'test:watch:unit', (callback) ->
-  karma = new KarmaServer({
-    configFile: __dirname + '/karma.conf.coffee'
-  }, callback)
-
-  karma.start()
-
 gulp.task 'test:unit', (callback) ->
   karma = new KarmaServer({
     configFile: __dirname + '/karma.conf.coffee',
@@ -105,6 +100,13 @@ gulp.task 'test:unit', (callback) ->
 
   karma.start()
 
+gulp.task 'test:unit:watch', (callback) ->
+  karma = new KarmaServer({
+    configFile: __dirname + '/karma.conf.coffee'
+  }, callback)
+
+  karma.start()
+
 gulp.task 'test:unit:coverage', (callback) ->
   karma = new KarmaServer({
     configFile: __dirname + '/karma.conf-coverage.coffee'
@@ -112,13 +114,19 @@ gulp.task 'test:unit:coverage', (callback) ->
 
   karma.start()
 
-gulp.task 'coverage', ['unit:coverage'], ->
+gulp.task 'coverage', ['test:unit:coverage'], ->
   gulp.src './coverage/lcov-report/index.html'
     .pipe open()
 
-gulp.task 'test:watch:e2e', ['serve'], ->
-  _e2e = =>
-    gulp.src(['e2e/scenarios/**/*.coffee'])
+gulp.task 'test:integration', ['serve'], ->
+  gulp.src(['spec/integration/**/*.coffee'])
+    .pipe protractor({ configFile: 'protractor.conf.coffee' })
+    .on 'error', $.util.log
+    .once 'end', -> process.exit()
+
+gulp.task 'test:integration:watch', ['serve'], ->
+  bundle = =>
+    gulp.src(['spec/integration/**/*.coffee'])
       .pipe protractor({ configFile: 'protractor.conf.coffee' })
       .on 'error', $.util.log
 
@@ -126,11 +134,24 @@ gulp.task 'test:watch:e2e', ['serve'], ->
     'app/*html',
     'app/scripts/**/*.coffee',
     'app/images/**/*',
-    'e2e/**/*.coffee',
+    'spec/integration/**/*.coffee',
+    'spec/integration/mocks/api.json',
     'dist/**/*.js',
-  ]).on 'change', _e2e
+  ]).on 'change', bundle
 
-  _e2e()
+  bundle()
+
+server = jsonServer.create({
+  port: 8001
+  baseUrl: '/api'
+})
+
+gulp.task 'serve:mock', ['serve:api', 'serve'], ->
+  gulp.watch(['api/response.json'], ['serve:api'])
+
+gulp.task 'serve:api', ->
+  gulp.src 'api/response.json'
+    .pipe server.pipe()
 
 gulp.task 'serve', ['build'], ->
   browserSync
@@ -147,6 +168,7 @@ gulp.task 'serve', ['build'], ->
     'app/*html',
     'app/scripts/**/*.coffee',
     'app/images/**/*',
+    'api/response.json',
     "#{Params.targetFolder}/**/*.js",
   ]).on 'change', reload
 
@@ -163,12 +185,6 @@ gulp.task 'serve:dist', ->
       routes: { '/node_modules': 'node_modules' }
     }
 
-gulp.task 'serve:mock', ['setup:mock', 'serve']
-
-gulp.task 'setup:mock', ->
-  Params.browserifyEntries = 'e2e/mocks/main.coffee'
-  Params.targetFolder = '.mock'
-
 gulp.task 'build', ['browserify', 'html', 'images', 'fonts', 'extras'], ->
   size = $.size({title: 'build', gzip: true })
   gulp.src "#{Params.targetFolder}/**/*"
@@ -181,7 +197,7 @@ gulp.task 'build', ['browserify', 'html', 'images', 'fonts', 'extras'], ->
 
 gulp.task 'clean', (callback) ->
   del = require('del')
-  del ['dist', '.mock'], ->
+  del ['dist'], ->
     $.cache.clearAll(callback)
 
 gulp.task 'default', ['clean'], ->

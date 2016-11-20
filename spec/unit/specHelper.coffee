@@ -1,4 +1,4 @@
-require '../app/scripts/manifest'
+require '../../app/scripts/manifest'
 require './factories'
 
 window.lazy = (attr, block) ->

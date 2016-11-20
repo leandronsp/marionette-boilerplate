@@ -5,6 +5,6 @@ class Collections.Users extends Backbone.Collection
     Config.apiHost
 
   url: ->
-    "#{@urlRoot()}/users"
+    "#{@urlRoot()}/api/users"
 
 module.exports = Collections.Users

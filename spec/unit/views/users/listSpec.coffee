@@ -15,3 +15,10 @@ describe Views.Users.List, ->
 
     expect(first.find('.name').text()).toEqual('John Craig')
     expect(second.find('.name').text()).toEqual('Thomas Right')
+
+  it 'shows `No users` on absence', ->
+    collection = new Collections.Users
+    view = new Views.Users.List collection: collection
+    view.render()
+
+    expect($(view.$el.find('.no-results')).text().trim()).toEqual('No users')

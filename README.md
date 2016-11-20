@@ -26,11 +26,12 @@ Batteries included:
  - Karma
  - Protractor
  - Jasmine
+ - json-server
  
 Setup
 --------
 	$ npm install
-	$ webdriver-manager update (need for e2e tests)
+	$ webdriver-manager update (need for e2e/integration tests)
 
 Build
 ------
@@ -47,23 +48,27 @@ Unit Testing
 ---------
 Two options exists to run tests, the first one is for development process and aims to practice Test Driven Development.
 
-    $ gulp tdd
+    $ gulp test:unit:watch
 
 It will open a Google Chrome instance and run all tests on it, when a file is updated tests will be run again. You can see the rests as a notification or in the console.
 The other option to run tests is for Continuous Integration purposes, it will run all the tests against PanthomJS and output a jUnit format file for analysis.
+
+	$ gulp test:unit
+	
+**Coverage**	
 
     $ gulp coverage
 
 And the Browser will open the coverage in HTML format. 
 
 
-E2E Testing
+Integration Testing
 ------------
 By calling :
 
-	$ gulp e2e
+	$ gulp test:integration
 
-Protractor will run a selenium driver and execute the scenarios under `e2e/scenarios/**/*.coffee`. 	
+Protractor will run a selenium driver and execute the scenarios under `spec/integration/**/*.coffee`. 
 
 Contribution
 ---------------
