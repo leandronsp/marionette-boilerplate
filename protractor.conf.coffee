@@ -5,11 +5,13 @@ exports.config = {
   baseUrl: 'http://localhost:9000'
   capabilities: {
     maxInstances: 1
-    browserName: 'chrome'
+    browserName: 'firefox'
   }
   #multiCapabilities: [{
+  #  maxInstances: 1
   #  browserName: 'firefox'
   #}, {
+  #  maxInstances: 1
   #  browserName: 'chrome'
   #}]
 }
